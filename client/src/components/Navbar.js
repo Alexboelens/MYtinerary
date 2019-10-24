@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import { connect } from 'react-redux'
+import { getLoggedUserData } from './redux/actions/loginActions'
 
 
 class Navbar extends React.Component {
@@ -16,18 +17,8 @@ class Navbar extends React.Component {
          this.setState({
           toggleMenu: !this.state.toggleMenu
          })
-         const token = localStorage.getItem('token')
-        console.log(token)
-        if(token){
-          axios.get('http://localhost:8080/user/me', {
-            headers: {
-              'token': token
-            }
-          })
-          .then(res => {console.log(res.data)})
-          .catch(err=> console.log('login first'))
-         
-        }
+          this.props.getLoggedUserData()
+          console.log(this.props.userData)   
       }
 
      
@@ -54,7 +45,7 @@ class Navbar extends React.Component {
                             <img src="" alt="avatar"/>
                           </div>
                           <div className="avatar-name">
-                            <p>Username</p>
+                            <p>{this.props.userData.name}</p>
                           </div>
                       </div>
 
@@ -80,5 +71,9 @@ class Navbar extends React.Component {
   
 }
 
+const mapStateToProps = (state)=> ({
+  userData: state.login.userData,
+  userLoggedIn: state.login.userLoggedIn
+})
 
-export default Navbar
+export default connect(mapStateToProps, { getLoggedUserData })(Navbar)

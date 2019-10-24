@@ -10,6 +10,8 @@ class Mytineraries extends React.Component{
         super(props);
         this.state = {
             toggleOpen:'',
+            activity:'',
+            modal:false
         }
     }
 
@@ -28,6 +30,21 @@ handleClickClose = () => {
     })
 }
 
+handleOpenModal = (activity) => {
+    this.setState({
+        activity: activity,
+        modal:true
+    })
+    console.log(this.state.activity)
+}
+
+handleCloseModal = () => {
+    this.setState({
+        modal:false
+    })
+}
+
+
  componentDidMount(){
     let city = this.props.match.params.city;
     this.props.fetchOneCity(city)
@@ -37,7 +54,35 @@ handleClickClose = () => {
         console.log(this.props.mytineraries)
 
         return( <>
-       
+            {/* activity modal */}
+             {this.state.modal && <><div className="activity-modal">
+                 <div style={{backgroundImage: `url(${this.state.activity.photo})`}} className="modal-background"></div>
+                 <span className="modal-activity-name">{this.state.activity.name}</span>
+                 <div className='modal-table'>
+                 <table>
+                     <tbody>
+                         <tr>
+                             <td className='modal-td'>Adress</td>
+                             <td>{this.state.activity.address}</td>
+                         </tr>
+                         <tr>
+                             <td className='modal-td'>Hours</td>
+                             <td>{this.state.activity.duration}</td>
+                         </tr>
+                         <tr>
+                             <td className='modal-td'>Cost</td>
+                             <td>{this.state.activity.cost}</td>
+                         </tr>
+                     </tbody>
+                 </table>
+                 <div className="modal-comments">{this.state.activity.comments}</div>
+                </div>
+                 
+             </div>
+             <div onClick={() => this.handleCloseModal()} className="backdrop"></div></>}
+
+
+            {/* main content */}
             <div className='citypage-main'>
             {this.props.cityIsLoaded && <p className="mytin-city-name">{this.props.city.city}</p>}
 
@@ -59,12 +104,34 @@ handleClickClose = () => {
                                         {/* add fav btn */}+
                                     </div>
                                 </div>
-                                <div className="mytin-wrap4"></div>
-                                <div className="mytin-wrap5"></div>
+                                <div className="mytin-wrap4">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th className='td'>Likes </th>
+                                                <th className='td'>Hours</th>
+                                                <th className='td'>Price</th>
+                                            </tr>
+                                            <tr>
+                                                <td className='td'>{mytin.likes}</td>
+                                                <td className='td'>{mytin.duration}</td>
+                                                <td className='td'>{mytin.price}</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                              
                            
                           
+                    </div>
+                    <div className="mytin-wrap5">
+                                      {mytin.hashtags.map((hashtag, index) => {
+                                         return(
+                                               <div key={index} className='hashtag'>#{hashtag}</div>
+                                             )
+                                            })}
                     </div>
 
                     {this.state.toggleOpen === mytin._id ? <>
@@ -72,14 +139,14 @@ handleClickClose = () => {
                             <div className="slider-wrap">
                                 {mytin.activities.map((activity, index) => {
                                     return(
-                                        <div style={{backgroundImage: `url(${activity.photo})`}} key={index}className="slider-div">
+                                        <div onClick={() => this.handleOpenModal(activity)} style={{backgroundImage: `url(${activity.photo})`}} key={index}className="slider-div">
                                             <span>{activity.name}</span>
                                         </div>
                                     )
                                 })}
                             </div>
                     </div>
-
+                        
                         <div onClick={() => this.handleClickClose()} className="mytin-open">Close</div>
                         
                         </> 

@@ -318,6 +318,7 @@ background: black;
     margin-bottom: 16px;
     background-size: cover;
     background-position: center;
+    animation: scale 0.4s ease-out;
 }
 
 .city-link{
@@ -365,6 +366,7 @@ background: black;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  animation: scale 0.5s ease-out;
 }
 
 .mytinerary-container{
@@ -372,7 +374,11 @@ background: black;
   width:90%;
   height:150px;
   border:2px solid black;
+  border-bottom:0px;
   box-sizing: border-box;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background:aliceblue;
 }
 
 .mytinerary-container2{
@@ -382,6 +388,7 @@ background: black;
   border:2px solid black;
   border-top:0px;
   box-sizing: border-box;
+  background:aliceblue;
 }
 
 .mytin-open{
@@ -393,7 +400,11 @@ background: black;
     box-sizing: border-box;
     justify-content: center;
     border-top: 0px;
-    margin-bottom: 49px;
+    margin-bottom: 30px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color:white;
+    background: dodgerblue;
 }
 
 .slider-wrap{
@@ -412,7 +423,7 @@ background: black;
   animation-name:transition;
   animation-duration: 0.5s;
   justify-content: center;
-  font-size:19px;
+  font-size:15px;
   font-weight: 600;
   color:white;
   align-items: center;
@@ -454,22 +465,25 @@ background: black;
 .mytin-wrap3{
    width:100%;
    display:flex;
-   height:40%;
-   text-overflow:ellipsis;
+   height:65%;
 }
 
 .mytin-wrap4{
   width:100%;
   display:flex;
-  background:blue;
   height:30%;
 }
 
 .mytin-wrap5{
-  width:100%;
+  width:90%;
   display:flex;
-  background:pink;
-  height:30%;
+  align-items: center;
+  justify-content: space-around;
+  border:2px solid black;
+  border-top:0px;
+  box-sizing: border-box;
+  height:30px; 
+  background:aliceblue;
 }
 
 .mytin-name{
@@ -481,7 +495,7 @@ background: black;
     word-break: break-word;
     text-align: center;
     padding: 3px;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
     color: mediumblue;
 }
@@ -490,7 +504,7 @@ background: black;
   width:20%; 
   height: 100%;
   display:flex;
-  justify-content: center; background:pink;
+  justify-content: center; 
   align-items: center;
 }
 
@@ -610,4 +624,81 @@ background: black;
   top: 167px;
   color: red;
   margin-left: 21px;
+}
+
+.td{
+    width:100px;
+    text-align:center;
+}
+
+.hashtag{
+  font-size:15px;
+  padding-bottom:7px;
+}
+
+.activity-modal{
+  width:300px;
+  min-height:500px;
+  max-height:550px;
+  border:1px solid black;
+  z-index:500;
+  box-sizing:border-box;
+  position:absolute;
+  left:40px;
+  top:80px;
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  background:white;
+  border-radius:10px;
+  box-shadow: 1px 1px 7px black;
+  animation: scale 0.3s ease-out;
+}
+
+.modal-background{
+  width:90%; 
+  height:150px;
+  margin-top:15px;
+  border-radius: 10px;
+  background-size:cover;
+  background-position: center;
+  border:1px solid black;
+  box-sizing: border-box;
+  
+}
+
+.modal-activity-name{
+  text-align:center;
+  font-size:18px;
+  font-weight: 600;
+  margin-top:7px;
+  width:90%;
+}
+
+.modal-table{
+  width: 95%;
+  padding-left:15px;
+  margin-top: 10px;
+}
+
+.modal-td{
+  width:70px;
+  height:25px;
+}
+
+.modal-comments{
+    width: 90%;
+    margin-top:10px;
+    display: flex;
+    max-height: 110px;
+    overflow: scroll;
+}
+
+@keyframes scale{
+  from{
+    transform: scale(0)
+  }
+  to{
+    transform:scale(1)
+  }
 }

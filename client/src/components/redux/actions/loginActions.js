@@ -1,4 +1,4 @@
-import { LOGIN_USER } from './types'
+import { LOGIN_USER, GET_LOGGED_USER_DATA } from './types'
 import axios from 'axios'
 
 export const loginUser = (user) => dispatch => {
@@ -14,4 +14,22 @@ export const loginUser = (user) => dispatch => {
    }
    )
 }
+
+export const getLoggedUserData = () => dispatch => {
+    const token = localStorage.getItem('token')
+    axios.get('http://localhost:8080/user/profile', {
+        headers: {
+          'token': token
+        }
+      })
+     .then(res => {
+         dispatch({
+             type:GET_LOGGED_USER_DATA,
+             payload: res.data,
+             userLoggedIn: true
+         })
+    console.log(res.data)
+     })
+      
+    }
 

@@ -1,9 +1,10 @@
-import { LOGIN_USER } from '../actions/types'
+import { LOGIN_USER, GET_LOGGED_USER_DATA } from '../actions/types'
 
 
 const initialState = {
     login:false,
-    response:''
+    response:'',
+    userData:''
 }
 
 export default function(state = initialState, action){
@@ -13,6 +14,11 @@ export default function(state = initialState, action){
                 ...state,
                 login: action.login,
                 response:action.response
+            }
+        case GET_LOGGED_USER_DATA:
+            return {
+                ...state,
+                userData: action.payload
             }
         
         default:

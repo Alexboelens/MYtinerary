@@ -27,7 +27,7 @@ router.post('/register', (req, res) => {
   });
 
 
-  router.get('/me', VerifyToken, (req, res) => {
+  router.get('/profile', VerifyToken, (req, res) => {
     var token = req.headers['token'];
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
     
