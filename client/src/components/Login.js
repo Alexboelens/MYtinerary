@@ -2,6 +2,7 @@ import React from 'react'
 import Footer from './Footer'
 import { connect } from 'react-redux'
 import { loginUser } from './redux/actions/loginActions'
+import { Redirect } from 'react-router-dom'
 
 
 class Login extends React.Component{
@@ -94,9 +95,9 @@ handleActive = () => {
                    <button disabled={!isEnabled} className={!isEnabled ? 'login-btn' : 'login-btn-active'} onClick={this.handleLogin}>Login</button>
                 </div>
 
-            {/* {this.props.response.match('wrong email') && <span className='wrong-email'>You have entered a wrong email-address.</span>} */}
-            {/* {this.props.response.match('wrong password') && <span className='wrong-password'>You have entered a wrong password.</span>} */}
-
+            {this.props.response === 'wrong email' && <span className='wrong-email'>You have entered a wrong email-address.</span>} 
+            {this.props.response === 'wrong password' && <span className='wrong-password'>You have entered a wrong password.</span>}
+            {this.props.response.auth  === true && <Redirect to='/'/>}
                <Footer />
            </main>
        )

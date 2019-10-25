@@ -6,7 +6,6 @@ export const loginUser = (user) => dispatch => {
    .then( res => {
        dispatch({
            type: LOGIN_USER,
-           login:true,
            response:res.data
           
        })
@@ -26,7 +25,6 @@ export const getLoggedUserData = () => dispatch => {
          dispatch({
              type:GET_LOGGED_USER_DATA,
              payload: res.data,
-             userLoggedIn: true
          })
     console.log(res.data)
      })

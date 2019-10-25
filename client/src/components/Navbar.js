@@ -13,13 +13,22 @@ class Navbar extends React.Component {
         this.handleMenu = this.handleMenu.bind(this)
       }
     
-    handleMenu = (boolean) => {
+    handleMenu = () => {
          this.setState({
           toggleMenu: !this.state.toggleMenu
          })
           this.props.getLoggedUserData()
-          console.log(this.props.userData)   
+          console.log(this.props.userData)  
+          console.log(this.props.userLoggedIn) 
       }
+
+    handleLogout = () => {
+        this.setState({
+         toggleMenu: !this.state.toggleMenu
+        })
+        localStorage.removeItem('token') 
+     }
+
 
      
     render(){
@@ -53,13 +62,15 @@ class Navbar extends React.Component {
                       <div className="sidemenu-link-wrap">
                        
                         <div className="divider"></div>
+  {this.props.userData.auth === false && <p>nope</p>}
+  {this.props.userData.name && <p>yes</p>}
 
                         <Link to='/' onClick={this.handleMenu}>Home</Link>
                         <Link to='/cities' onClick={this.handleMenu}>Cities</Link>
                         <Link to='/' onClick={this.handleMenu}>Favourites</Link>
                         <Link to='/user/login' onClick={this.handleMenu}>Login</Link>
-                        <Link to='/' onClick={this.handleMenu}>Create Account</Link>
-                        <Link to='/' onClick={this.handleMenu}>Logout</Link>
+                        <Link to='/user/register' onClick={this.handleMenu}>Create Account</Link>
+                        <button onClick={this.handleLogout}>Logout</button>
                         <Link to='/cities/mytineraries' onClick={this.handleMenu}>Mytineraries</Link>
                       </div>
                        
@@ -72,8 +83,7 @@ class Navbar extends React.Component {
 }
 
 const mapStateToProps = (state)=> ({
-  userData: state.login.userData,
-  userLoggedIn: state.login.userLoggedIn
+  userData: state.login.userData
 })
 
 export default connect(mapStateToProps, { getLoggedUserData })(Navbar)

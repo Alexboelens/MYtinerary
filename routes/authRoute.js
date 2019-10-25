@@ -49,7 +49,7 @@ router.post('/register', (req, res) => {
 
     User.findOne({ email: req.body.email }, (err, result) => {
       if (err) return res.status(500).send('Error on the server.');
-      if (!result) return res.send('wrong email.');
+      if (!result) return res.send('wrong email');
       
       var passwordIsValid = bcrypt.compareSync(req.body.password, result.password);
       if (!passwordIsValid) return res.send('wrong password');
@@ -57,14 +57,14 @@ router.post('/register', (req, res) => {
       var token = jwt.sign({ id: result._id }, config.secret, {
         expiresIn: 86400 // expires in 24 hours
       });
-      
+    
       res.status(200).send({ 
         auth: true, 
-        token: token,
-        name: result.name
+        token: token
       });
     });
-    
+          
+
   });
 
 

@@ -13,7 +13,6 @@ const verifyToken = (req, res, next) => {
     if (err)
     return res.send({ auth: false, message: 'Failed to authenticate token.' });
       
-    // if everything good, save to request for use in other routes
     req.userId = result.id;
     next();
   });
