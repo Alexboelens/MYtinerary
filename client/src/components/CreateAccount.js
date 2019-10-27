@@ -1,5 +1,8 @@
 import React from 'react'
 import Footer from './Footer'
+import { registerUser } from './redux/actions/userActions'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 
 class CreateAccount extends React.Component{
@@ -19,7 +22,15 @@ class CreateAccount extends React.Component{
        this.handleSubmit = this.handleSubmit.bind(this)
        this.handlePrompt = this.handlePrompt.bind(this)
        this.handleCheckbox = this.handleCheckbox.bind(this)
+       this.handleDisabled = this.handleDisabled.bind(this)
     }
+
+
+handleDisabled = () => {
+    const { userName, email, password, firstName, lastName, country, agreeTerms } = this.state;
+        return userName.length > 4 && email.length > 6 && password.length > 4 && firstName.length > 4 && lastName.length > 4 && country.length > 1 && agreeTerms === true
+    }
+
 
 handleChange = (e) => {
     this.setState({
@@ -43,8 +54,6 @@ handlePrompt = async () => {
         this.setState({
             image: url
         })
-        
-        console.log(this.state.image)
     }
 }
 
@@ -67,10 +76,10 @@ handleSubmit = (e) => {
         country:this.state.country,
         agreeTerms:this.state.agreeTerms
     }
-//   post function here
-console.log(user)
+    this.props.registerUser(user)
 }
     render(){
+        const isEnabled = this.handleDisabled();
         return(
             <main>
                 <div className='ca-img-wrap'>
@@ -162,8 +171,11 @@ console.log(user)
                         <label htmlFor="ca-checkbox">I agree to MYtinerary's <span className='ca-terms-text'>Terms & Conditions</span></label>
                     </div>
 
-                    <div className="div-center"><button onClick={this.handleSubmit} className='register-btn'>Register</button></div>
-                    
+                    <div className="div-center"><button disabled={!isEnabled} onClick={this.handleSubmit} className={!isEnabled ? 'register-btn' : 'register-btn-active'}>Register</button></div>
+
+                    {this.props.response === 'email already exists' && <div className='ca-response'>Email adress already exists</div> }
+                    {this.props.response === 'username already exists' && <div className='ca-response-username'>Username adress already exists</div> }
+                    {this.props.response === 'user added' && <Redirect to='/user/login'/> }
 
                     <Footer />
                 </main>
@@ -171,4 +183,8 @@ console.log(user)
     }
 }
 
-export default CreateAccount
+const mapStateToProps = (state) => ({
+    response: state.user.response
+})
+
+export default connect(mapStateToProps, { registerUser }) (CreateAccount)

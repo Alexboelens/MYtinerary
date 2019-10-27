@@ -5,11 +5,11 @@ import HomeIcon from '../images/homeIcon.png'
 const Footer = () => {
     return(
         <div className="footer">
-            <Link to='/'>
-            
+            {/* <Link to='/'> */}
+               <a href='/'>
                 <img className="home-icon" src={HomeIcon} alt="Home Icon"/>
-                
-            </Link>
+                </a>
+            {/* </Link> */}
            
            
         </div>

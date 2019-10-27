@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import citiesReducer from '../reducers/citiesReducer'
 import mytinerariesReducer from './mytinerariesReducer'
 import loginReducer from './loginReducer'
+import userReducer from './userReducer'
 
 
 
@@ -9,5 +10,6 @@ import loginReducer from './loginReducer'
 export default combineReducers({
     cities: citiesReducer,
     mytineraries: mytinerariesReducer,
-    login: loginReducer
+    login: loginReducer,
+    user: userReducer
 })

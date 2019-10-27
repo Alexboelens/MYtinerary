@@ -7,26 +7,6 @@ const User = require('../models/user');
 const VerifyToken = require('./verifyToken')
 
 
-router.post('/register', (req, res) => {
-  
-    const hashedPassword = bcrypt.hashSync(req.body.password, 8);
-    
-    User.create({
-      name : req.body.name,
-      email : req.body.email,
-      password : hashedPassword
-    },
-     (err, user) => {
-      if (err) return res.status(500).send(err)
-      // create a token
-      const token = jwt.sign({ id: user._id }, config.secret, {
-        expiresIn: 86400 // expires in 24 hours
-      })
-      res.status(200).send({ auth: true, token: token });
-    })
-  });
-
-
   router.get('/profile', VerifyToken, (req, res) => {
     var token = req.headers['token'];
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
@@ -42,8 +22,6 @@ router.post('/register', (req, res) => {
       });
     });
   });
-
-
 
   router.post('/login', (req, res) => {
 
@@ -63,11 +41,6 @@ router.post('/register', (req, res) => {
         token: token
       });
     });
-          
-
   });
-
-
-
 
   module.exports = router

@@ -7,9 +7,9 @@ var config = require('../config');
 const verifyToken = (req, res, next) => {
   var token = req.headers['token'];
   if (!token)
-    return res.status(403).send({ auth: false, message: 'No token provided.' });
+    return res.send({ auth: false, message: 'No token provided.' });
     
-  jwt.verify(token, config.secret, function(err, result) {
+  jwt.verify(token, config.secret, (err, result) => {
     if (err)
     return res.send({ auth: false, message: 'Failed to authenticate token.' });
       

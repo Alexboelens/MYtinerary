@@ -42,7 +42,7 @@ var mytinerarySchema = new Schema({
     type: Array
   },
   comments: {
-    type: String
+    type: Array
   }
  
 });

@@ -3,6 +3,8 @@ import Footer from './Footer'
 import { connect } from 'react-redux'
 import { fetchOneCity } from './redux/actions/citiesActions'
 import { fetchMytinerariesByCity  } from './redux/actions/mytinerariesActions'
+import { getLoggedUserData } from './redux/actions/loginActions'
+import { postComment } from './redux/actions/userActions'
 import { Link } from 'react-router-dom'
 
 class Mytineraries extends React.Component{
@@ -11,17 +13,29 @@ class Mytineraries extends React.Component{
         this.state = {
             toggleOpen:'',
             activity:'',
-            modal:false
+            modal:false,
+            comment:''
         }
     }
 
+scrollToBottom() {
+        if (this.commentsDiv)
+            this.commentsDiv.scrollTop = this.commentsDiv.scrollHeight
+    }
+
+addSomeDelay(arg) {
+        let that = this
+        setTimeout(function() {
+            that.scrollToBottom()
+        },1)
+    }
 
 handleClickOpen = (id) => {
     this.setState({
         toggleOpen: id
     })
     
-    // this.addSomeDelay()
+    this.addSomeDelay()
 }
 
 handleClickClose = () => {
@@ -44,15 +58,43 @@ handleCloseModal = () => {
     })
 }
 
+handleChange = (e) => {
+    this.setState({
+        [e.target.name] : e.target.value
+    })
+   
+}
+
+handlePostComment = (id) => {
+    const comment = {
+        userName: this.props.userData.userName,
+        comment: this.state.comment,
+        id: id
+    }
+    this.props.postComment(comment)
+    this.scrollToBottom()
+}
+
 
  componentDidMount(){
+    const token = localStorage.getItem('token')
+    if(token){
+        this.props.getLoggedUserData(token)
+        this.setState({
+            login:true
+        })
+    }
     let city = this.props.match.params.city;
     this.props.fetchOneCity(city)
     this.props.fetchMytinerariesByCity(city) 
 }
-    render(){
-        console.log(this.props.mytineraries)
 
+componentDidUpdate(){
+    let city = this.props.match.params.city;
+    this.props.fetchMytinerariesByCity(city) 
+}
+
+    render(){
         return( <>
             {/* activity modal */}
              {this.state.modal && <><div className="activity-modal">
@@ -122,18 +164,13 @@ handleCloseModal = () => {
                                     </table>
                                 </div>
                             </div>
-                             
-                           
-                          
+                               
                     </div>
                     <div className="mytin-wrap5">
-                                      {mytin.hashtags.map((hashtag, index) => {
-                                         return(
-                                               <div key={index} className='hashtag'>#{hashtag}</div>
-                                             )
-                                            })}
+                        {mytin.hashtags.map((hashtag, index) => { return( <div key={index} className='hashtag'>#{hashtag}</div>)})}
                     </div>
 
+                {/* activity sloder */}
                     {this.state.toggleOpen === mytin._id ? <>
                     <div className="mytinerary-container2">
                             <div className="slider-wrap">
@@ -144,6 +181,25 @@ handleCloseModal = () => {
                                         </div>
                                     )
                                 })}
+                            </div>
+
+                        {/* comments */}
+                            <div className="comment-wrap" ref={(el) => {this.commentsDiv = el}}>
+                                {mytin.comments && mytin.comments.map( (comment, index) => {
+                                    return( <div className='comment-div' key={index}>
+                                        <div key={index}className='comment-username'>{comment.userName}</div>
+                                        <div className='comment-container'>{comment.comment}</div>
+                                   </div> )
+                                })}
+                                
+                            </div>
+                            <div className="input-wrap">
+                                <input type="text"
+                                     className='comment-input'
+                                     onChange={this.handleChange}
+                                     name='comment'
+                                     value={this.state.comment} />
+                                <button className='comment-btn' onClick={() => this.handlePostComment(mytin._id)} >SEND</button>
                             </div>
                     </div>
                         
@@ -167,7 +223,8 @@ const mapStateToProps = (state) => ({
     city: state.cities.city,
     cityIsLoaded: state.cities.cityIsLoaded,
     mytineraries: state.mytineraries.mytineraries,
-    mytinerariesAreLoaded: state.mytineraries.mytinerariesAreLoaded
+    mytinerariesAreLoaded: state.mytineraries.mytinerariesAreLoaded,
+    userData: state.login.userData
 })
 
-export default connect (mapStateToProps, { fetchOneCity, fetchMytinerariesByCity }) (Mytineraries)
+export default connect (mapStateToProps, { fetchOneCity, fetchMytinerariesByCity, getLoggedUserData, postComment }) (Mytineraries)

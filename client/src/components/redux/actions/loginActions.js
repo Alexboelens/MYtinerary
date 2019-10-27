@@ -7,7 +7,6 @@ export const loginUser = (user) => dispatch => {
        dispatch({
            type: LOGIN_USER,
            response:res.data
-          
        })
        localStorage.setItem('token', res.data.token)
    }
@@ -24,7 +23,7 @@ export const getLoggedUserData = () => dispatch => {
      .then(res => {
          dispatch({
              type:GET_LOGGED_USER_DATA,
-             payload: res.data,
+             payload: res.data
          })
     console.log(res.data)
      })

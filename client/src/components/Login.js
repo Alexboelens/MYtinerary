@@ -25,19 +25,18 @@ handleChange = (e) => {
     })
 }
 
-handleLogin = (e) => {
+ handleLogin = async (e) => {
     e.preventDefault();
     const user = {
         email: this.state.email,
         password: this.state.password
     }
     this.props.loginUser(user)
-    this.setState({
-        email: '',
-        password: '',
-        response: this.props.response
-    })
+    
+    // this.handleRedirect()
 }
+
+
 
 handleChecked = () => {
     this.setState({
@@ -57,6 +56,7 @@ handleActive = () => {
     const { email, password } = this.state;
     return email.length > 4 && password.length > 4
 }
+
 
    render(){
        console.log(this.props.response)
@@ -97,7 +97,7 @@ handleActive = () => {
 
             {this.props.response === 'wrong email' && <span className='wrong-email'>You have entered a wrong email-address.</span>} 
             {this.props.response === 'wrong password' && <span className='wrong-password'>You have entered a wrong password.</span>}
-            {this.props.response.auth  === true && <Redirect to='/'/>}
+            {/* {this.props.response.auth === true && <Redirect to='/' />} */}
                <Footer />
            </main>
        )

@@ -2,23 +2,41 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
+const bcrypt = require('bcryptjs');
 
 
-// CREATES A NEW USER
+// Creates new user after checking username and email exist
 router.post('/add', (req, res) => {
-    let user = new User({
-            name : req.body.name,
-            email : req.body.email,
-            password : req.body.password
-        })
-         user.save(user, (err, user) => {
-             if(user){
-                res.status(200).send(user);
-             } if(err){
-                 res.send(err)
-             }
-        })   
-       })
+    User.findOne({ userName: req.body.userName }, (err, result) => {
+        if(result){
+            res.send('username already exists')
+        }
+        if(!result){
+            User.findOne({ email: req.body.email }, (err, email) => {
+                if(email){
+                    return res.send('email already exists')
+                }
+                if(!email){
+                    const hashedPassword = bcrypt.hashSync(req.body.password, 8);
+                    let user = new User({
+                        image: req.body.image,
+                        userName: req.body.userName,
+                        email: req.body.email,
+                        password: hashedPassword,
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName,
+                        country: req.body.country,
+                        agreeTerms: req.body.agreeTerms
+                    })
+                    
+                    user.save(user, (err, user) => {
+                        return res.send('user added')
+                    })
+                }
+            })
+        }
+    })
+})
         
     
 

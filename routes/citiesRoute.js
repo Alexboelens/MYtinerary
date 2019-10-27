@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router();
 const Cities = require('../models/cities')
 
+
+
 router.get('/all', (req, res) => {
   Cities.find((err, result) => {
     res.send(result)
@@ -29,7 +31,7 @@ router.post('/add', (req, res) => {
   })
   city.save((err, result) => {
       if(result){
-        res.send(result)
+        return res.send(result)
       }
   })
 })
