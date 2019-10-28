@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getLoggedUserData } from './redux/actions/loginActions'
+import { getLoggedUserData, logOut } from './redux/actions/loginActions'
 
 
 class Navbar extends React.Component {
@@ -27,6 +27,7 @@ class Navbar extends React.Component {
         this.setState({
          toggleMenu: !this.state.toggleMenu
         })
+        this.props.logOut();
         localStorage.removeItem('token') 
      }
 
@@ -89,7 +90,8 @@ class Navbar extends React.Component {
 }
 
 const mapStateToProps = (state)=> ({
-  userData: state.login.userData
+  userData: state.login.userData,
+  response: state.login.response
 })
 
-export default withRouter(connect(mapStateToProps, { getLoggedUserData })(Navbar))
+export default withRouter(connect(mapStateToProps, { getLoggedUserData, logOut })(Navbar))

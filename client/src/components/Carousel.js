@@ -6,7 +6,8 @@ class Carousel extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      slide: 1
+      slide: 1,
+      redirect: true
     }
     this.handleSlideLeft = this.handleSlideLeft.bind(this);
     this.handleSlideRight = this.handleSlideRight.bind(this);
@@ -37,17 +38,28 @@ handleSlideRight(){
     }
 
     async componentDidMount(){
+      console.log('hello')
      const response = await this.props.fetchAllMytineraries();
      if(this.props.mytineraries){
        return response
      }
     }
+
+    componentDidUpdate () {
+      if (this.state.redirect) {
+          this.setState({
+              redirect: false
+          })
+
+          this.props.fetchAllMytineraries();
+          console.log('hello again')
+      }
+  }
    
 
   render(){ 
-    {this.props.mytinerariesAreLoaded && console.log(this.props.mytineraries)
-    }
-   
+    console.log(this.props.mytinerariesAreLoaded, this.props.mytineraries)
+    if (this.props.mytinerariesAreLoaded)
     return( <>
 
       <div className="slide-wrapper">
@@ -102,6 +114,10 @@ handleSlideRight(){
           </div> 
       </div>
       </>
+    )
+    else 
+    return(
+      <div>Loading ...</div>
     )
   }
 }

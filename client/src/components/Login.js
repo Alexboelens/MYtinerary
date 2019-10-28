@@ -36,8 +36,6 @@ handleChange = (e) => {
     // this.handleRedirect()
 }
 
-
-
 handleChecked = () => {
     this.setState({
         checked: !this.state.checked
@@ -94,10 +92,10 @@ handleActive = () => {
                 <div className="login-btn-wrap">
                    <button disabled={!isEnabled} className={!isEnabled ? 'login-btn' : 'login-btn-active'} onClick={this.handleLogin}>Login</button>
                 </div>
-
+            {console.log(this.props.response.auth)}
             {this.props.response === 'wrong email' && <span className='wrong-email'>You have entered a wrong email-address.</span>} 
             {this.props.response === 'wrong password' && <span className='wrong-password'>You have entered a wrong password.</span>}
-            {/* {this.props.response.auth === true && <Redirect to='/' />} */}
+            {this.props.response.auth === true && <Redirect to='/' />}
                <Footer />
            </main>
        )

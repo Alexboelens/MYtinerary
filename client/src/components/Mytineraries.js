@@ -27,7 +27,7 @@ addSomeDelay(arg) {
         let that = this
         setTimeout(function() {
             that.scrollToBottom()
-        },1)
+        },100)
     }
 
 handleClickOpen = (id) => {
@@ -65,14 +65,21 @@ handleChange = (e) => {
    
 }
 
-handlePostComment = (id) => {
+handlePostComment = async (id) => {
     const comment = {
         userName: this.props.userData.userName,
         comment: this.state.comment,
         id: id
     }
-    this.props.postComment(comment)
-    this.scrollToBottom()
+    console.log(comment)
+    await this.props.postComment(comment)
+    let city = this.props.match.params.city;
+    let that = this;
+    setTimeout(function() {
+        that.props.fetchMytinerariesByCity(city) 
+        that.addSomeDelay();
+    },300)
+
 }
 
 
@@ -90,11 +97,12 @@ handlePostComment = (id) => {
 }
 
 componentDidUpdate(){
-    let city = this.props.match.params.city;
-    this.props.fetchMytinerariesByCity(city) 
+   
 }
 
     render(){
+        console.log(this.props.userData)
+        if (this.props.mytinerariesAreLoaded)
         return( <>
             {/* activity modal */}
              {this.state.modal && <><div className="activity-modal">
@@ -216,6 +224,10 @@ componentDidUpdate(){
           
             <Footer />
       </>  )
+      else 
+      return (
+          <div>Loading ...</div>
+      )
     }
 }
 

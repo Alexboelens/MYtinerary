@@ -4,6 +4,11 @@ import axios from 'axios'
 
 
 export const fetchAllMytineraries = () => dispatch => {
+    dispatch({
+        type: FETCH_ALL_MYTINERARIES,
+        payload: [],
+        mytinerariesAreLoaded: false
+    })
      axios.get('http://localhost:8080/mytineraries/all')
     .then(res => dispatch({
         type: FETCH_ALL_MYTINERARIES,
@@ -15,9 +20,11 @@ export const fetchAllMytineraries = () => dispatch => {
 
 export const fetchMytinerariesByCity = (city) => dispatch => {
      axios.get('http://localhost:8080/mytineraries/' +city)
-    .then( res => dispatch({
+    .then( res => {dispatch({
         type: FETCH_MYTINERARY_BY_CITY,
         payload: res.data,
         mytinerariesAreLoaded: true
-    }))
+    })
+    console.log(res.data)
+})
 }

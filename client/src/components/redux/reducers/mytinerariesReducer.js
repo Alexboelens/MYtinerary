@@ -12,13 +12,13 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 mytineraries: action.payload,
-                mytinerariesAreLoaded: true
+                mytinerariesAreLoaded: action.mytinerariesAreLoaded
             }
          case FETCH_ALL_MYTINERARIES:
              return {
                 ...state,
                  mytineraries: action.payload,
-                 mytinerariesAreLoaded: true
+                 mytinerariesAreLoaded: action.mytinerariesAreLoaded
                 }
         
         default:

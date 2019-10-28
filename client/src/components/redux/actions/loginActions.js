@@ -1,6 +1,16 @@
 import { LOGIN_USER, GET_LOGGED_USER_DATA } from './types'
 import axios from 'axios'
 
+export const logOut = (dispatch) => {
+    return {
+        type: LOGIN_USER,
+        response: {
+            token: null,
+            auth: false
+        }
+    }
+} 
+
 export const loginUser = (user) => dispatch => {
     axios.post('http://localhost:8080/user/login', user)
    .then( res => {
