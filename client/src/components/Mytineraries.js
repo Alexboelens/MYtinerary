@@ -14,7 +14,18 @@ class Mytineraries extends React.Component{
             toggleOpen:'',
             activity:'',
             modal:false,
-            comment:''
+            comment:'',
+            addFavModal: true,
+
+            favourites: ''
+        }
+        this.handleKeyPress = this.handleKeyPress.bind(this)
+    }
+
+
+handleKeyPress = (e, id) => {
+        if(e.key=== 'Enter'){
+           this.handlePostComment(id)
         }
     }
 
@@ -62,8 +73,16 @@ handleChange = (e) => {
     this.setState({
         [e.target.name] : e.target.value
     })
-   
 }
+
+// handleFavourites(){
+//     if(this.props.userData){
+//         this.props.userData.favourites.map(fav => {
+//             this.state.favourites.push(fav)
+//         })
+//     }
+// }
+
 
 handlePostComment = async (id) => {
     const comment = {
@@ -78,7 +97,7 @@ handlePostComment = async (id) => {
     setTimeout(function() {
         that.props.fetchMytinerariesByCity(city) 
         that.addSomeDelay();
-    },300)
+    },200)
 
 }
 
@@ -96,12 +115,9 @@ handlePostComment = async (id) => {
     this.props.fetchMytinerariesByCity(city) 
 }
 
-componentDidUpdate(){
-   
-}
 
     render(){
-        console.log(this.props.userData)
+        console.log(this.props.userData.favourites)
         if (this.props.mytinerariesAreLoaded)
         return( <>
             {/* activity modal */}
@@ -131,6 +147,8 @@ componentDidUpdate(){
              </div>
              <div onClick={() => this.handleCloseModal()} className="backdrop"></div></>}
 
+             {/* ADD FAVOURITE MODAL */}
+
 
             {/* main content */}
             <div className='citypage-main'>
@@ -151,7 +169,9 @@ componentDidUpdate(){
                                         {mytin.title}
                                     </div>
                                     <div className="mytin-fav-btn">
-                                        {/* add fav btn */}+
+                                   {this.props.userData && this.props.userData.favourites.includes(mytin._id) 
+                                   ? <i className="material-icons heart">favorite</i> 
+                                   : <i className="material-icons empty-heart">favorite_border</i>}
                                     </div>
                                 </div>
                                 <div className="mytin-wrap4">
@@ -203,6 +223,7 @@ componentDidUpdate(){
                             </div>
                             <div className="input-wrap">
                                 <input type="text"
+                                     onKeyDown={(e) => this.handleKeyPress(e, mytin._id)}
                                      className='comment-input'
                                      onChange={this.handleChange}
                                      name='comment'
@@ -236,7 +257,8 @@ const mapStateToProps = (state) => ({
     cityIsLoaded: state.cities.cityIsLoaded,
     mytineraries: state.mytineraries.mytineraries,
     mytinerariesAreLoaded: state.mytineraries.mytinerariesAreLoaded,
-    userData: state.login.userData
+    userData: state.login.userData,
+    userDataIsLoaded: state.login.userDataIsLoaded
 })
 
 export default connect (mapStateToProps, { fetchOneCity, fetchMytinerariesByCity, getLoggedUserData, postComment }) (Mytineraries)

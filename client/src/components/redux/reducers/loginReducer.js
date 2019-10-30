@@ -3,7 +3,8 @@ import { LOGIN_USER, GET_LOGGED_USER_DATA } from '../actions/types'
 
 const initialState = {
     response:'',
-    userData:''
+    userData:'',
+    userDataIsLoaded: false
 }
 
 export default (state = initialState, action) => {
@@ -16,7 +17,8 @@ export default (state = initialState, action) => {
         case GET_LOGGED_USER_DATA:
             return {
                 ...state,
-                userData: action.payload
+                userData: action.payload,
+                userDataIsLoaded: action.userDataIsLoaded
             }
         
         default:

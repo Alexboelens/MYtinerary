@@ -5,13 +5,13 @@ import { connect } from 'react-redux'
 import { fetchAllMytineraries } from './redux/actions/mytinerariesActions'
 
 class Footer extends React.Component{
-    resetItrineraries() {
+    resetItineraries() {
         this.props.fetchAllMytineraries();
     }
     render(){
     return(
         <div className="footer">
-            <Link to='/' onClick={() => this.resetItrineraries()}>
+            <Link to='/' onClick={() => this.resetItineraries()}>
                
                 <img className="home-icon" src={HomeIcon} alt="Home Icon"/>
     
@@ -24,9 +24,9 @@ class Footer extends React.Component{
 }
 
 const mapStateToProps = (state)=> ({
-   
-  })
+
+})
   
 
-// export default Footer
+
 export default connect(mapStateToProps,{ fetchAllMytineraries })(Footer)

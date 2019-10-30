@@ -33,7 +33,8 @@ export const getLoggedUserData = () => dispatch => {
      .then(res => {
          dispatch({
              type:GET_LOGGED_USER_DATA,
-             payload: res.data
+             payload: res.data,
+             userDataIsLoaded: true
          })
     console.log(res.data)
      })

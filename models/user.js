@@ -33,6 +33,9 @@ var UserSchema = new Schema({
       },
       agreeTerms: {
           type: Boolean
+      },
+      favourites: {
+        type:Array
       }
 });
 

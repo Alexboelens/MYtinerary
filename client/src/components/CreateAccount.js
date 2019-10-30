@@ -3,6 +3,7 @@ import Footer from './Footer'
 import { registerUser } from './redux/actions/userActions'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import Terms from './Terms'
 
 
 class CreateAccount extends React.Component{
@@ -16,16 +17,22 @@ class CreateAccount extends React.Component{
             firstName:'',
             lastName: '',
             country:'',
-            agreeTerms:false
+            agreeTerms:false,
+            modal: false
         }
        this.handleChange = this.handleChange.bind(this)
        this.handleSubmit = this.handleSubmit.bind(this)
        this.handlePrompt = this.handlePrompt.bind(this)
        this.handleCheckbox = this.handleCheckbox.bind(this)
        this.handleDisabled = this.handleDisabled.bind(this)
+       this.handleModal = this.handleModal.bind(this)
     }
 
-
+handleModal(){
+    this.setState({
+        modal: !this.state.modal
+    })
+}
 handleDisabled = () => {
     const { userName, email, password, firstName, lastName, country, agreeTerms } = this.state;
         return userName.length > 4 && email.length > 6 && password.length > 4 && firstName.length > 4 && lastName.length > 4 && country.length > 1 && agreeTerms === true
@@ -168,7 +175,7 @@ handleSubmit = (e) => {
                         onChange={this.handleCheckbox}
                         id='ca-checkbox'
                         />
-                        <label htmlFor="ca-checkbox">I agree to MYtinerary's <span className='ca-terms-text'>Terms & Conditions</span></label>
+                        <label htmlFor="ca-checkbox">I agree to MYtinerary's <span onClick={this.handleModal} className='ca-terms-text'>Terms & Conditions</span></label>
                     </div>
 
                     <div className="div-center"><button disabled={!isEnabled} onClick={this.handleSubmit} className={!isEnabled ? 'register-btn' : 'register-btn-active'}>Register</button></div>
@@ -176,6 +183,16 @@ handleSubmit = (e) => {
                     {this.props.response === 'email already exists' && <div className='ca-response'>Email adress already exists</div> }
                     {this.props.response === 'username already exists' && <div className='ca-response-username'>Username adress already exists</div> }
                     {this.props.response === 'user added' && <Redirect to='/user/login'/> }
+
+                    {/* Terms & conditions Modal */}
+                    {this.state.modal && <> <div onClick={this.handleModal} className="backdrop"></div>
+                    <div className="terms-modal">
+                        <div className='terms-header'>Terms & Conditions</div> 
+                        <div className="terms-content">
+                            <Terms />
+                        </div>   
+                    </div> 
+                       </> }
 
                     <Footer />
                 </main>

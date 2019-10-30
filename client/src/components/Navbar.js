@@ -31,6 +31,8 @@ class Navbar extends React.Component {
         localStorage.removeItem('token') 
      }
 
+ 
+
     componentDidMount(){
       const token = localStorage.getItem('token')
       if(token){

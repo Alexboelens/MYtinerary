@@ -2,7 +2,9 @@ import React from 'react'
 import Footer from './Footer'
 import { connect } from 'react-redux'
 import { loginUser } from './redux/actions/loginActions'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
+import googleLogo from '../images/Google-Logo.png'
+import facebookLogo from '../images/facebook-logo.png'
 
 
 class Login extends React.Component{
@@ -92,6 +94,25 @@ handleActive = () => {
                 <div className="login-btn-wrap">
                    <button disabled={!isEnabled} className={!isEnabled ? 'login-btn' : 'login-btn-active'} onClick={this.handleLogin}>Login</button>
                 </div>
+            {/* google login button */}
+            <div className="google-wrap">
+                <button className='google-btn'> <img className='google-logo' src={googleLogo} alt="google logo"/>
+                    Sign in with Google</button>
+            </div>
+
+            <div className="facebook-wrap">
+                <button className='facebook-btn'> <img className='facebook-logo' src={facebookLogo} alt="google logo"/>
+                    Sign in with Facebook</button>
+            </div>
+
+            <div className="login-text-wrap">
+                <p className='login-text'>Don't have a MYtinerary account yet? You should create one! It's totally free and only takes a minute.</p>
+            </div>
+            <div className="ca-link-wrap">
+                <Link to='/user/register' className='ca-link'>Create Account</Link>
+            </div>
+
+
             {console.log(this.props.response.auth)}
             {this.props.response === 'wrong email' && <span className='wrong-email'>You have entered a wrong email-address.</span>} 
             {this.props.response === 'wrong password' && <span className='wrong-password'>You have entered a wrong password.</span>}
