@@ -37,12 +37,10 @@ handleSlideRight(){
     }
     }
 
-    async componentDidMount(){
+     componentDidMount(){
       console.log('hello')
-     const response = await this.props.fetchAllMytineraries();
-     if(this.props.mytineraries){
-       return response
-     }
+    this.props.fetchAllMytineraries();
+     
     }
 
     componentDidUpdate () {
@@ -50,7 +48,6 @@ handleSlideRight(){
           this.setState({
               redirect: false
           })
-
           this.props.fetchAllMytineraries();
           console.log('hello again')
       }
@@ -67,30 +64,30 @@ handleSlideRight(){
       {this.state.slide === 1 && 
         <div className="slider">
         {this.props.mytinerariesAreLoaded && <>
-             <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[14].activities[5].photo})`}}>{this.props.mytineraries[14].activities[5].name}</div>
+             {/* <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[14].activities[5].photo})`}}>{this.props.mytineraries[14].activities[5].name}</div>
              <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[10].activities[1].photo})`}}>{this.props.mytineraries[10].activities[1].name}</div>
              <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[11].activities[0].photo})`}}>{this.props.mytineraries[11].activities[0].name}</div>
-             <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[15].activities[0].photo})`}}>{this.props.mytineraries[15].activities[0].name}</div>
+             <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[15].activities[0].photo})`}}>{this.props.mytineraries[15].activities[0].name}</div> */}
 
              </>}
         </div>}
       {this.state.slide === 2 && 
          <div className="slider">
          {this.props.mytinerariesAreLoaded && <>
-          <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[12].activities[0].photo})`}}>{this.props.mytineraries[12].activities[0].name}</div>
+          {/* <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[12].activities[0].photo})`}}>{this.props.mytineraries[12].activities[0].name}</div>
           <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[13].activities[2].photo})`}}>{this.props.mytineraries[13].activities[2].name}</div>
           <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[14].activities[6].photo})`}}>{this.props.mytineraries[14].activities[6].name}</div>
-          <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[16].activities[0].photo})`}}>{this.props.mytineraries[16].activities[0].name}</div>
+          <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[16].activities[0].photo})`}}>{this.props.mytineraries[16].activities[0].name}</div> */}
 
              </>}
         </div>}
       {this.state.slide === 3 && 
           <div className="slider">
           {this.props.mytinerariesAreLoaded && <>
-            <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[17].activities[4].photo})`}}>{this.props.mytineraries[17].activities[4].name}</div>
+            {/* <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[17].activities[4].photo})`}}>{this.props.mytineraries[17].activities[4].name}</div>
             <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[19].activities[7].photo})`}}>{this.props.mytineraries[19].activities[7].name}</div>
             <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[20].activities[0].photo})`}}>{this.props.mytineraries[20].activities[0].name}</div>
-            <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[22].activities[0].photo})`}}>{this.props.mytineraries[22].activities[0].name}</div>
+            <div className="slide" style={{backgroundImage: `url(${this.props.mytineraries[22].activities[0].photo})`}}>{this.props.mytineraries[22].activities[0].name}</div> */}
 
              </>}
           </div>}

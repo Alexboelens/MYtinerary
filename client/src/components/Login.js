@@ -5,6 +5,8 @@ import { loginUser } from './redux/actions/loginActions'
 import { Redirect, Link } from 'react-router-dom'
 import googleLogo from '../images/Google-Logo.png'
 import facebookLogo from '../images/facebook-logo.png'
+import { fetchAllMytineraries } from './redux/actions/mytinerariesActions'
+
 
 
 class Login extends React.Component{
@@ -34,8 +36,7 @@ handleChange = (e) => {
         password: this.state.password
     }
     this.props.loginUser(user)
-    
-    // this.handleRedirect()
+    this.props.fetchAllMytineraries()
 }
 
 handleChecked = () => {
@@ -128,4 +129,4 @@ const mapStateToProps = state => ({
    response: state.login.response
 })
 
-export default connect(mapStateToProps, { loginUser }) (Login)
+export default connect(mapStateToProps, { loginUser, fetchAllMytineraries }) (Login)

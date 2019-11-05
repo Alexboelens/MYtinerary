@@ -19,6 +19,7 @@ export const fetchAllMytineraries = () => dispatch => {
 
 
 export const fetchMytinerariesByCity = (city) => dispatch => {
+    console.log(city)
      axios.get('http://localhost:8080/mytineraries/' +city)
     .then( res => {dispatch({
         type: FETCH_MYTINERARY_BY_CITY,

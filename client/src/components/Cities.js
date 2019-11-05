@@ -3,6 +3,7 @@ import Footer from './Footer'
 import { connect } from 'react-redux'
 import { fetchAllCities } from './redux/actions/citiesActions'
 import { Link } from 'react-router-dom'
+import { getLoggedUserData } from './redux/actions/loginActions'
 
 class CityPage extends React.Component{
     constructor(props){
@@ -64,5 +65,5 @@ const mapStateToProps = state => ({
     citiesAreLoaded: state.cities.citiesAreLoaded
 })
 
-export default connect(mapStateToProps, { fetchAllCities }) (CityPage)
+export default connect(mapStateToProps, { fetchAllCities, getLoggedUserData }) (CityPage)
 

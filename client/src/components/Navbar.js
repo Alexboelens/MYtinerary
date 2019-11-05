@@ -2,6 +2,8 @@ import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getLoggedUserData, logOut } from './redux/actions/loginActions'
+import { fetchAllMytineraries, fetchMytinerariesByCity } from './redux/actions/mytinerariesActions'
+
 
 
 class Navbar extends React.Component {
@@ -29,11 +31,17 @@ class Navbar extends React.Component {
         })
         this.props.logOut();
         localStorage.removeItem('token') 
+        this.props.getLoggedUserData()
+
+        let city = window.location.pathname.split('/')[2]
+        this.props.fetchMytinerariesByCity(city)
+        this.props.history.push('/')
+
      }
 
  
-
     componentDidMount(){
+      this.props.getLoggedUserData();
       const token = localStorage.getItem('token')
       if(token){
         this.setState({
@@ -73,7 +81,7 @@ class Navbar extends React.Component {
                   
                     {this.props.userData.userName && <>
                       <span className='navlink' onClick={this.handleLogout}>Logout</span>
-                      <Link to='/user/favorites' className='navlink'onClick={this.handleMenu}>Favorites</Link>
+                      <Link to='/user/favourites' className='navlink'onClick={this.handleMenu}>Favourites</Link>
                       </>}
 
                       {this.props.userData.auth === false && 
@@ -96,4 +104,4 @@ const mapStateToProps = (state)=> ({
   response: state.login.response
 })
 
-export default withRouter(connect(mapStateToProps, { getLoggedUserData, logOut })(Navbar))
+export default withRouter(connect(mapStateToProps, { getLoggedUserData, logOut, fetchAllMytineraries, fetchMytinerariesByCity })(Navbar))

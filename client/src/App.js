@@ -8,7 +8,7 @@ import Mytineraries from './components/Mytineraries'
 import store from './components/redux/store'
 import Login from './components/Login'
 import CreateAccount from './components/CreateAccount';
-import Favorites from './components/Favorites'
+import Favourites from './components/Favourites'
 
 class App extends React.Component{
  
@@ -27,7 +27,7 @@ class App extends React.Component{
         <Route path='/cities/mytineraries' component={Mytineraries}/>
         <Route path='/cities/:city' component={Mytineraries} />
         <Route path='/user/register' component={CreateAccount} />
-        <Route path='/user/favorites' component={Favorites} />
+        <Route path='/user/favourites' component={Favourites} />
         <Route exact path='/user/login' component={Login} />
 
       </Switch>

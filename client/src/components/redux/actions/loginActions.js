@@ -38,6 +38,5 @@ export const getLoggedUserData = () => dispatch => {
          })
     console.log(res.data)
      })
-      
     }
 

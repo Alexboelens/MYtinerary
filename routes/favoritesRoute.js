@@ -7,13 +7,13 @@ const Mytineraries = require('../models/mytineraries')
 // ADD MYTINERARY ID TO USER
 
 router.put('/add', (req, res) => {
-    Mytineraries.findOne({_id: req.body.id}, (err, result) => {
+    Mytineraries.findOne({_id: req.body.mytinId}, (err, result) => {
         if(result){ 
-            User.findOne({_id: req.body._id}, (err, user) => {
+            User.findOne({_id: req.body.userId}, (err, user) => {
                 if(err) { return res.send(err) 
                 }
                 if(user){
-                    User.findOne({favourites: result._id, _id: req.body._id}, (err, doc) => {
+                    User.findOne({favourites: result._id, _id: req.body.userId}, (err, doc) => {
                            if(doc){
                              User.findOneAndUpdate({_id: user.id}, {$pull: {
                                favourites: result._id

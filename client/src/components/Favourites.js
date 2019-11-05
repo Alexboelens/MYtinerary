@@ -1,14 +1,13 @@
 import React from 'react'
 import Footer from './Footer'
 import { connect } from 'react-redux'
-import { fetchOneCity } from './redux/actions/citiesActions'
-import { fetchMytinerariesByCity  } from './redux/actions/mytinerariesActions'
 import { getLoggedUserData } from './redux/actions/loginActions'
 import { postComment } from './redux/actions/userActions'
 import { addFavourite } from './redux/actions/favouriteActions'
 import { Link } from 'react-router-dom'
+import { fetchAllMytineraries } from './redux/actions/mytinerariesActions'
 
-class Mytineraries extends React.Component{
+class Favourites extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -111,14 +110,7 @@ handleAddFavourite = async (mytinId) => {
 }
 
 renderFavIcon(mytin) {
-    let toReturn = <i onClick={() => this.handleAddFavourite(mytin._id)} className="material-icons empty-heart">favorite_border</i>;
-    if (this.state.login) {
-        if (this.props.userData.favourites) {
-            if (this.props.userData.favourites.includes(mytin._id)) {
-                toReturn = <i onClick={() => this.handleAddFavourite(mytin._id)} className="material-icons heart">favorite</i>
-            } 
-        } 
-    } 
+    let toReturn = <i onClick={() => this.handleAddFavourite(mytin._id)} className="material-icons heart">favorite</i>
     return (toReturn)
 }
 
@@ -126,10 +118,7 @@ favModal(){
     let favContent = <> <p className='fav-login-text'>Login to add favourites</p> 
                         <Link to='/user/login' className='fav-modal-link'>Login</Link>
                         <Link to='/user/register' className='fav-modal-link'>Create Account</Link></>
-    if(this.state.login && this.props.response === 'added'){
-        favContent = <> <p>You have added this Itinerary to your favourites.</p>
-                        <Link to='/user/favourites' className='fav-modal-link'>Go to Favourites</Link> </>
-    } if(this.state.login && this.props.response === 'removed'){
+    if(this.state.login && this.props.response === 'removed'){
         favContent = <> <p>You have removed this Itinerary from your favourites.</p>
                        <Link to='/user/favourites' className='fav-modal-link'>Go to Favourites</Link> </>
 
@@ -148,60 +137,21 @@ favModal(){
             login:true
         })
     }
-    let city = this.props.match.params.city;
-    this.props.fetchOneCity(city)
-    this.props.fetchMytinerariesByCity(city) 
+    this.props.fetchAllMytineraries()
 }
 
 
     render(){
         if (this.props.mytinerariesAreLoaded && this.props.userData)
-        return( <>
-            {/* activity modal */}
-             {this.state.modal && <><div className="activity-modal">
-                 <div style={{backgroundImage: `url(${this.state.activity.photo})`}} className="modal-background"></div>
-                 <span className="modal-activity-name">{this.state.activity.name}</span>
-                 <div className='modal-table'>
-                 <table>
-                     <tbody>
-                         <tr>
-                             <td className='modal-td'>Adress</td>
-                             <td>{this.state.activity.address}</td>
-                         </tr>
-                         <tr>
-                             <td className='modal-td'>Hours</td>
-                             <td>{this.state.activity.duration}</td>
-                         </tr>
-                         <tr>
-                             <td className='modal-td'>Cost</td>
-                             <td>{this.state.activity.cost}</td>
-                         </tr>
-                     </tbody>
-                 </table>
-                 <div className="modal-comments">{this.state.activity.comments}</div>
-                </div>
-                 
-             </div>
-             <div onClick={() => this.handleCloseModal()} className="backdrop"></div></>}
-
-             {/* FAVOURITE MODAL */}
-             {this.state.favModal
-             ? <> <div onClick={this.handleCloseModal} className="backdrop"></div>
-                <div className="add-fav-modal">
-                  {this.favModal()}    
-                </div> </>
-             : null }
-                    
-                
-
-            {/* main content */}
-            <div className='citypage-main'>
-            {this.props.cityIsLoaded && <p className="mytin-city-name">{this.props.city.city}</p>}
-
-            {this.props.mytinerariesAreLoaded && this.props.mytineraries.map(mytin => {
-                return ( 
-                     <div key={mytin._id} className="container">
-                        <div className='mytinerary-container'>
+        return( 
+        <main>
+            {this.props.userData.favourites.map(fav => {
+                return(
+                    this.props.mytineraries.map(mytin => {
+                    if(mytin._id === fav){
+                        return(
+                            <div key={mytin._id} className="container">
+                            <div className='mytinerary-container'>
                               <div className="mytin-wrap1">
                                    <div style={{backgroundImage: `url(${mytin.userPhoto})`}} className="mytin-avatar"></div>
                                    <span className='mytin-username'>{mytin.userName}</span>
@@ -229,17 +179,16 @@ favModal(){
                                                 <td className='td'>{mytin.duration}</td>
                                                 <td className='td'>{mytin.price}</td>
                                             </tr>
-
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                               
-                    </div>
-                    <div className="mytin-wrap5">
-                        {mytin.hashtags.map((hashtag, index) => { return( <div key={index} className='hashtag'>#{hashtag}</div>)})}
-                    </div>
+                            </div>          
+                      </div> 
+                           <div className="mytin-wrap5">
+                                {mytin.hashtags.map((hashtag, index) => { return( <div key={index} className='hashtag'>#{hashtag}</div>)})}
+                          </div>
 
+                        
                 {/* activity sloder */}
                     {this.state.toggleOpen === mytin._id ? <>
                     <div className="mytinerary-container2">
@@ -279,16 +228,20 @@ favModal(){
                         
                         </> 
                         : <div onClick={() => this.handleClickOpen(mytin._id)} className="mytin-open">View All</div>}
-                   </div>
-                    )})}
+                   
 
-            <div className="link"><Link to='/cities'>Choose another city</Link></div>
-            </div>
-        
-          
-            <Footer />
-      </>  )
-      else 
+                         </div>
+                            
+                        )
+                    }
+                })
+                )
+               
+            })}
+        </main>
+        )
+    
+    else 
       return (
           <div>Loading ...</div>
       )
@@ -296,8 +249,6 @@ favModal(){
 }
 
 const mapStateToProps = (state) => ({
-    city: state.cities.city,
-    cityIsLoaded: state.cities.cityIsLoaded,
     mytineraries: state.mytineraries.mytineraries,
     mytinerariesAreLoaded: state.mytineraries.mytinerariesAreLoaded,
     userData: state.login.userData,
@@ -305,4 +256,4 @@ const mapStateToProps = (state) => ({
     response: state.favourite.response
 })
 
-export default connect (mapStateToProps, { fetchOneCity, fetchMytinerariesByCity, getLoggedUserData, postComment, addFavourite }) (Mytineraries)
+export default connect (mapStateToProps, { fetchAllMytineraries, getLoggedUserData, postComment, addFavourite }) (Favourites)

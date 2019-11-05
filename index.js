@@ -12,6 +12,7 @@ const comments = require('./routes/commentRoute')
 const favorites = require('./routes/favoritesRoute')
 
 
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors());
