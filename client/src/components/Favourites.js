@@ -16,7 +16,8 @@ class Favourites extends React.Component{
             modal:false,
             comment:'',
             favModal: false,
-            login:false
+            login:false,
+            deleteModal: false
         }
         this.handleKeyPress = this.handleKeyPress.bind(this)
         this.handleAddFavourite = this.handleAddFavourite.bind(this)
@@ -34,11 +35,11 @@ scrollToBottom() {
             this.commentsDiv.scrollTop = this.commentsDiv.scrollHeight
     }
 
-addSomeDelay(arg) {
+addSomeDelay() {
         let that = this
         setTimeout(function() {
             that.scrollToBottom()
-        },100)
+        },200)
     }
 
 handleClickOpen = (id) => {
@@ -84,10 +85,12 @@ handlePostComment = async (id) => {
     }
     console.log(comment)
     await this.props.postComment(comment)
-    let city = this.props.match.params.city;
+    // let city = this.props.match.params.city;
     let that = this;
     setTimeout(function() {
-        that.props.fetchMytinerariesByCity(city) 
+        // that.props.fetchAllMytineraries();
+        // that.props.getLoggedUserData();
+        that.props.fetchAllMytineraries();
         that.addSomeDelay();
     },200)
 }
@@ -109,8 +112,14 @@ handleAddFavourite = async (mytinId) => {
     })
 }
 
+openDeleteModal(){
+    this.setState({
+        deleteModal: !this.state.deleteModal
+    })
+}
+
 renderFavIcon(mytin) {
-    let toReturn = <i onClick={() => this.handleAddFavourite(mytin._id)} className="material-icons heart">favorite</i>
+    let toReturn = <i onClick={() => this.openDeleteModal} className="material-icons heart">favorite</i>
     return (toReturn)
 }
 
@@ -121,10 +130,7 @@ favModal(){
     if(this.state.login && this.props.response === 'removed'){
         favContent = <> <p>You have removed this Itinerary from your favourites.</p>
                        <Link to='/user/favourites' className='fav-modal-link'>Go to Favourites</Link> </>
-
     }
-                        
-
     return favContent;
 }
 
@@ -142,10 +148,10 @@ favModal(){
 
 
     render(){
-        if (this.props.mytinerariesAreLoaded && this.props.userData)
+        if (this.props.userData)
         return( 
         <main>
-            {this.props.userData.favourites.map(fav => {
+            {this.props.userData && this.props.userData.favourites.map(fav => {
                 return(
                     this.props.mytineraries.map(mytin => {
                     if(mytin._id === fav){
@@ -238,6 +244,46 @@ favModal(){
                 )
                
             })}
+            <Footer/>
+
+             {/* activity modal */}
+             {this.state.modal && <><div className="activity-modal">
+                 <div style={{backgroundImage: `url(${this.state.activity.photo})`}} className="modal-background"></div>
+                 <span className="modal-activity-name">{this.state.activity.name}</span>
+                 <div className='modal-table'>
+                 <table>
+                     <tbody>
+                         <tr>
+                             <td className='modal-td'>Adress</td>
+                             <td>{this.state.activity.address}</td>
+                         </tr>
+                         <tr>
+                             <td className='modal-td'>Hours</td>
+                             <td>{this.state.activity.duration}</td>
+                         </tr>
+                         <tr>
+                             <td className='modal-td'>Cost</td>
+                             <td>{this.state.activity.cost}</td>
+                         </tr>
+                     </tbody>
+                 </table>
+                 <div className="modal-comments">{this.state.activity.comments}</div>
+                </div>
+                 
+             </div>
+             <div onClick={() => this.handleCloseModal()} className="backdrop"></div></>}
+
+             {/* DELETE FAVOURITE MODAL */}
+                {/* <div className="backdrop"></div>
+                <div className="deleteFav-modal">
+                    <p>Are you sure you want to delete this MYtinerary from your favourites?</p>
+                    <div className="button-wrap">
+                        <button className='delete-fav-btn' onClick={this.openDeleteModal()}>Cancel</button>
+                        <button className='delete-fav-btn' onClick={() => this.handleAddFavourite()}>Delete</button>
+                    </div>
+                   
+                </div> */}
+
         </main>
         )
     

@@ -4,11 +4,6 @@ import axios from 'axios'
 
 
 export const fetchAllMytineraries = () => dispatch => {
-    dispatch({
-        type: FETCH_ALL_MYTINERARIES,
-        payload: [],
-        mytinerariesAreLoaded: false
-    })
      axios.get('http://localhost:8080/mytineraries/all')
     .then(res => dispatch({
         type: FETCH_ALL_MYTINERARIES,
