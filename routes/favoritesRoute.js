@@ -22,7 +22,22 @@ router.put('/add', (req, res) => {
                                     return res.status(200).send('removed')
                                 }
                            })
-                           } else{
+                           
+                           Mytineraries.findOne({_id: req.body.mytinId}, {likes: user.userName}, (err, mytin) => {
+                            if(mytin){
+                                        Mytineraries.findOneAndUpdate({_id: req.body.mytinId}, {$pull: {
+                                            likes: user.userName
+                                        }}, (err, like) => {
+                                            if(err){
+                                                res.send(err)
+                                            }     
+                                        })
+                                    
+                                
+                            }
+                           })
+                        }
+                           else{
                                  User.findOneAndUpdate({_id: user.id}, {$push: {
                                   favourites: result._id
                              }}, (err, add) => {
@@ -30,14 +45,21 @@ router.put('/add', (req, res) => {
                                  return res.status(200).send('added')
                              }
                         })
+                    
+                       
+                                        Mytineraries.findOneAndUpdate({_id: req.body.mytinId}, {$push: {
+                                            likes: user.userName
+                                        }}, (err, likeAdded) => {
+                                            if(err){
+                                                return res.send(err)
+                                            }     
+                                        
+                                    
+                                
+                            
+                           })
                         }
-                    })
-                      
-                      
-                       
-                       
-                       
-                   
+                    })    
                 } 
             })
         }

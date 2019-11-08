@@ -94,6 +94,7 @@ handlePostComment = async (id) => {
 }
 
 handleAddFavourite = async (mytinId) => {
+    let city = this.props.match.params.city;
     const favourite = {
         mytinId: mytinId,
         userId: this.props.userData._id
@@ -102,6 +103,7 @@ handleAddFavourite = async (mytinId) => {
    
     setTimeout(() => {
         this.props.getLoggedUserData(); 
+        this.props.fetchMytinerariesByCity(city);
         console.log(this.props.response)
     }, 200)
 
@@ -225,7 +227,7 @@ favModal(){
                                                 <th className='td'>Price</th>
                                             </tr>
                                             <tr>
-                                                <td className='td'>{mytin.likes}</td>
+                                                <td className='td'>{mytin.likes.length}</td>
                                                 <td className='td'>{mytin.duration}</td>
                                                 <td className='td'>{mytin.price}</td>
                                             </tr>

@@ -17,10 +17,12 @@ class Favourites extends React.Component{
             comment:'',
             favModal: false,
             login:false,
-            deleteModal: false
+            deleteModal: false,
+            mytin: ''
         }
         this.handleKeyPress = this.handleKeyPress.bind(this)
         this.handleAddFavourite = this.handleAddFavourite.bind(this)
+        this.deleteModal = this.deleteModal.bind(this)
     }
 
 
@@ -67,7 +69,8 @@ handleOpenModal = (activity) => {
 handleCloseModal = () => {
     this.setState({
         modal:false,
-        favModal: false
+        favModal: false,
+        deleteModal:false
     })
 }
 
@@ -85,11 +88,8 @@ handlePostComment = async (id) => {
     }
     console.log(comment)
     await this.props.postComment(comment)
-    // let city = this.props.match.params.city;
     let that = this;
     setTimeout(function() {
-        // that.props.fetchAllMytineraries();
-        // that.props.getLoggedUserData();
         that.props.fetchAllMytineraries();
         that.addSomeDelay();
     },200)
@@ -112,16 +112,31 @@ handleAddFavourite = async (mytinId) => {
     })
 }
 
-openDeleteModal(){
+deleteModal = (mytin) =>{
     this.setState({
-        deleteModal: !this.state.deleteModal
+        deleteModal: !this.state.deleteModal,
+        mytin: mytin
+    })
+    console.log(this.state.mytin)
+}
+
+deleteFavourite = async () => {
+    const favourite = {
+        mytinId: this.state.mytin,
+        userId: this.props.userData._id
+    }
+    await this.props.addFavourite(favourite)
+   
+    setTimeout(() => {
+        this.props.getLoggedUserData(); 
+        console.log(this.props.response)
+    }, 200)
+
+    this.setState({
+        deleteModal: false
     })
 }
 
-renderFavIcon(mytin) {
-    let toReturn = <i onClick={() => this.openDeleteModal} className="material-icons heart">favorite</i>
-    return (toReturn)
-}
 
 favModal(){
     let favContent = <> <p className='fav-login-text'>Login to add favourites</p> 
@@ -169,7 +184,7 @@ favModal(){
                                         {mytin.title}
                                     </div>
                                      <div className="mytin-fav-btn">
-                                          {this.renderFavIcon(mytin)}
+                                         <i onClick={() => this.deleteModal(mytin._id)} className="material-icons heart">favorite</i>
                                     </div>
                                 </div>
                                 <div className="mytin-wrap4">
@@ -181,7 +196,7 @@ favModal(){
                                                 <th className='td'>Price</th>
                                             </tr>
                                             <tr>
-                                                <td className='td'>{mytin.likes}</td>
+                                                <td className='td'>{mytin.likes.length}</td>
                                                 <td className='td'>{mytin.duration}</td>
                                                 <td className='td'>{mytin.price}</td>
                                             </tr>
@@ -274,15 +289,17 @@ favModal(){
              <div onClick={() => this.handleCloseModal()} className="backdrop"></div></>}
 
              {/* DELETE FAVOURITE MODAL */}
-                {/* <div className="backdrop"></div>
+
+             {this.state.deleteModal && <>
+                <div className="backdrop" onClick={() => this.handleCloseModal()}></div>
                 <div className="deleteFav-modal">
                     <p>Are you sure you want to delete this MYtinerary from your favourites?</p>
                     <div className="button-wrap">
-                        <button className='delete-fav-btn' onClick={this.openDeleteModal()}>Cancel</button>
-                        <button className='delete-fav-btn' onClick={() => this.handleAddFavourite()}>Delete</button>
+                        <button className='delete-fav-btn' onClick={() => this.handleCloseModal()}>Cancel</button>
+                        <button className='delete-fav-btn' onClick={() => this.deleteFavourite()}>Delete</button>
                     </div>
                    
-                </div> */}
+                </div> </>}
 
         </main>
         )
