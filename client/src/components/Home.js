@@ -22,7 +22,9 @@ const Home = () => {
             </Link>
           </div>
 
-          <p className="home-text-2" >Popular Activities</p>
+          <p className="home-text-2" >Want to build your own MYtinerary?</p>
+          <button><Link to='/user/login'></Link></button>
+          <button><Link to='/user/register'></Link></button>
        
         <Carousel />
         </div>

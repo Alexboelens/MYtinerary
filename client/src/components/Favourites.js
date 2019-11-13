@@ -6,6 +6,7 @@ import { postComment } from './redux/actions/userActions'
 import { addFavourite } from './redux/actions/favouriteActions'
 import { Link } from 'react-router-dom'
 import { fetchAllMytineraries } from './redux/actions/mytinerariesActions'
+import Loader from './Loader'
 
 class Favourites extends React.Component{
     constructor(props){
@@ -22,7 +23,6 @@ class Favourites extends React.Component{
         }
         this.handleKeyPress = this.handleKeyPress.bind(this)
         this.handleAddFavourite = this.handleAddFavourite.bind(this)
-        this.deleteModal = this.deleteModal.bind(this)
     }
 
 
@@ -300,13 +300,18 @@ favModal(){
                     </div>
                    
                 </div> </>}
+                {this.props.userData.favourites.length === 0 && <div className="no-favourites">
+                <h1>No favourites added</h1> 
+                    <Link to='/cities' className='cities-link'>Go to cities</Link> 
+                </div>
+                    }
 
         </main>
         )
     
     else 
       return (
-          <div>Loading ...</div>
+          <Loader />
       )
     }
 }

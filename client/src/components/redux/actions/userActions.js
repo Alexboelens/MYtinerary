@@ -22,6 +22,5 @@ export const postComment = (comment) => dispatch => {
         })
         console.log(res.data)
     })
-
 }
 

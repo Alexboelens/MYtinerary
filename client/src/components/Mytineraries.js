@@ -7,6 +7,7 @@ import { getLoggedUserData } from './redux/actions/loginActions'
 import { postComment } from './redux/actions/userActions'
 import { addFavourite } from './redux/actions/favouriteActions'
 import { Link } from 'react-router-dom'
+import Loader from './Loader'
 
 class Mytineraries extends React.Component{
     constructor(props){
@@ -292,7 +293,7 @@ favModal(){
       </>  )
       else 
       return (
-          <div>Loading ...</div>
+          <Loader />
       )
     }
 }

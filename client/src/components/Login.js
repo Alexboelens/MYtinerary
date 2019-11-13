@@ -6,6 +6,7 @@ import { Redirect, Link } from 'react-router-dom'
 import googleLogo from '../images/Google-Logo.png'
 import facebookLogo from '../images/facebook-logo.png'
 import { fetchAllMytineraries } from './redux/actions/mytinerariesActions'
+import axios from 'axios'
 
 
 
@@ -23,6 +24,7 @@ class Login extends React.Component{
         this.handleActive = this.handleActive.bind(this)
     }
 
+
 handleChange = (e) => {
     this.setState({
         [e.target.name] : e.target.value
@@ -38,6 +40,8 @@ handleChange = (e) => {
     this.props.loginUser(user)
     this.props.fetchAllMytineraries()
 }
+
+
 
 handleChecked = () => {
     this.setState({
@@ -97,8 +101,11 @@ handleActive = () => {
                 </div>
             {/* google login button */}
             <div className="google-wrap">
-                <button className='google-btn'> <img className='google-logo' src={googleLogo} alt="google logo"/>
-                    Sign in with Google</button>
+               
+                  <button className='google-btn'> <img className='google-logo' src={googleLogo} alt="google logo"/>
+                      <a className='google-link' href='http://localhost:8080/google/auth'>Sign in with Google</a>
+                  </button>
+                
             </div>
 
             <div className="facebook-wrap">

@@ -1,8 +1,9 @@
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getLoggedUserData, logOut } from './redux/actions/loginActions'
+import { getLoggedUserData, logOut, googleLogin } from './redux/actions/loginActions'
 import { fetchAllMytineraries, fetchMytinerariesByCity } from './redux/actions/mytinerariesActions'
+import axios from 'axios'
 
 
 
@@ -16,14 +17,18 @@ class Navbar extends React.Component {
         this.handleMenu = this.handleMenu.bind(this)
       }
     
+
+    googleLogout(){
+      axios.get('http://localhost:8080/google/logout').then(res => {
+        console.log('logged out')
+      })
+    }
     handleMenu = () => {
          this.setState({
           toggleMenu: !this.state.toggleMenu
          })
           this.props.getLoggedUserData()
-         
-          // console.log(this.props.userData)  
-      }
+          }
 
     handleLogout = () => {
         this.setState({
@@ -41,7 +46,11 @@ class Navbar extends React.Component {
 
  
     componentDidMount(){
+      const code = window.location.search;
       this.props.getLoggedUserData();
+      this.props.googleLogin(code);
+      console.log(code)
+
       const token = localStorage.getItem('token')
       if(token){
         this.setState({
@@ -86,6 +95,8 @@ class Navbar extends React.Component {
 
                       {this.props.userData.auth === false && 
                       <Link to='/user/login' className='navlink' onClick={this.handleMenu}>Login</Link> }
+                      <Link to='/' onClick={() => this.googleLogout()} className='navlink' onClick={this.handleMenu}>Google logout</Link> 
+                      
                       
                         <Link to='/user/register' className='navlink' onClick={this.handleMenu}>Create Account</Link>
                         <Link to='/cities' className='navlink' onClick={this.handleMenu}>Cities</Link>
@@ -104,4 +115,4 @@ const mapStateToProps = (state)=> ({
   response: state.login.response
 })
 
-export default withRouter(connect(mapStateToProps, { getLoggedUserData, logOut, fetchAllMytineraries, fetchMytinerariesByCity })(Navbar))
+export default withRouter(connect(mapStateToProps, { getLoggedUserData, logOut, fetchAllMytineraries, fetchMytinerariesByCity, googleLogin })(Navbar))

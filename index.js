@@ -10,12 +10,25 @@ const user = require('./routes/userRoute')
 const authcontroller = require('./routes/authRoute')
 const comments = require('./routes/commentRoute')
 const favorites = require('./routes/favoritesRoute')
-
+const google = require('./routes/googleRoute')
+const passport = require('passport')
+const passportSetup = require('./config/passport-setup')
+const cookieSession = require('cookie-session')
+const keys = require('./config/keys')
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors());
+
+app.use(cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [keys.session.cookieKey]  
+}))
+
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 mongoose.connect(process.env.MONGODB_URL,
@@ -33,6 +46,7 @@ app.use('/user', user)
 app.use('/user', authcontroller)
 app.use('/comment', comments)
 app.use('/favorites', favorites)
+app.use('/google', google)
 
 
 

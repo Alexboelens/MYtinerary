@@ -1,4 +1,4 @@
-import { LOGIN_USER, GET_LOGGED_USER_DATA } from './types'
+import { LOGIN_USER, GET_LOGGED_USER_DATA, GOOGLE_LOGIN } from './types'
 import axios from 'axios'
 
 export const logOut = (dispatch) => {
@@ -38,5 +38,27 @@ export const getLoggedUserData = () => dispatch => {
          })
     console.log(res.data)
      })
+    }
+
+export const googleLogin = (code) => {
+        return (dispatch) => {
+            fetch("http://localhost:8080/google/auth/redirect"+code,{
+                method: "GET",
+                mode: "no-cors",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(res => res.json())
+            .then(json => {
+                dispatch({
+                    type:GOOGLE_LOGIN,
+                    payload:json.data,
+                    userDataIsLoaded:true
+                })
+            .catch(err => console.log(err))
+            })
+        }
     }
 

@@ -1,4 +1,4 @@
-import { LOGIN_USER, GET_LOGGED_USER_DATA } from '../actions/types'
+import { LOGIN_USER, GET_LOGGED_USER_DATA, GOOGLE_LOGIN } from '../actions/types'
 
 
 const initialState = {
@@ -19,6 +19,13 @@ export default (state = initialState, action) => {
                 ...state,
                 userData: action.payload,
                 userDataIsLoaded: action.userDataIsLoaded
+            }
+        case GOOGLE_LOGIN:
+            return{
+                ...state,
+                userData: action.payload,
+                userDataIsLoaded: action.userDataIsLoaded
+
             }
         
         default:

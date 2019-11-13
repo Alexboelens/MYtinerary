@@ -1,6 +1,7 @@
 import React from 'react'
 import Footer from './Footer'
 import { connect } from 'react-redux'
+import Loader from './Loader'
 import { fetchAllCities } from './redux/actions/citiesActions'
 import { Link } from 'react-router-dom'
 import { getLoggedUserData } from './redux/actions/loginActions'
@@ -28,7 +29,7 @@ componentDidMount = () => {
 
     render(){
         return( <>
-           
+           {this.props.citiesAreLoaded &&
                 <div className="search-wrap">
                     <p className='city-input-label'>Filter our current cities</p>
                       <input type='text'
@@ -37,10 +38,10 @@ componentDidMount = () => {
                         name='input'
                         value= {this.state.input}
                         onChange={this.handleChange} />
-                    </div>
+                    </div>}
                   
             <div className='city-content'>
-               {this.props.citiesAreLoaded && this.props.cities.map(city => {
+               {this.props.citiesAreLoaded ? this.props.cities.map(city => {
                 if (city.city.toLowerCase().match(this.state.input.toLowerCase()))
                     return(
                     <div key={city._id} className='city-wrap'>
@@ -50,7 +51,7 @@ componentDidMount = () => {
                     </div>
                 </div>
             )}
-            )}
+            ) : <Loader />}
              
                 <Footer />
             </div>

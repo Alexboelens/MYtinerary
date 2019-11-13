@@ -9,6 +9,10 @@ body{
   background:white;
   margin:0;
   padding:0;
+  background-image: url('https://library.kissclipart.com/20181212/ubw/kissclipart-nyc-silhouette-clipart-empire-state-building-silho-999eca4bf44bc00f.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 
@@ -38,7 +42,7 @@ main{
   justify-content: center;
   align-items:center;
   width:100%; 
-  background:rgb(192, 5, 5);
+  background:darkblue;
   height:50px;
 }
 
@@ -1122,4 +1126,63 @@ background: black;
     color:white;
   }
 
+  .no-favourites{
+    display:flex;
+    width:100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
 
+
+.cities-link{
+  text-decoration: none;
+  color:dodgerblue;
+  font-size: 24px;
+}
+
+.loader-wrap{
+  width:100%;
+  display:flex;
+  justify-content: center;
+  margin-top:50px;
+}
+.loader {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  justify-content: space-between;
+  animation: loader 0.8s linear infinite;
+  margin-top: 50px;
+}
+
+@keyframes loader {
+  0% {
+      transform: rotate(0deg);
+  }
+
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+.ball1 {
+  width: 40px;
+  height: 40px;
+  background-color: deepskyblue;
+  align-self: center;
+  border-radius: 50%;
+}
+
+.ball2 {
+  width: 30px;
+  height: 30px;
+  background-color: navy;
+  align-self: center;
+  border-radius: 50%;
+}
+
+.google-link{
+  text-decoration: none;
+  color: white;
+}

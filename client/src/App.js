@@ -29,6 +29,7 @@ class App extends React.Component{
         <Route path='/user/register' component={CreateAccount} />
         <Route path='/user/favourites' component={Favourites} />
         <Route exact path='/user/login' component={Login} />
+        <Route exact path='/google/auth/redirect' component={Home} />
 
       </Switch>
      </div>
