@@ -115,9 +115,13 @@ handleAddFavourite = async (mytinId) => {
 
 renderFavIcon(mytin) {
     let toReturn = <i onClick={() => this.handleAddFavourite(mytin._id)} className="material-icons empty-heart">favorite_border</i>;
-    if (this.state.login) {
+    console.log(1)
+    if (this.props.userData) {
+        console.log(2)
         if (this.props.userData.favourites) {
+            console.log(this.props.userData.favourites)
             if (this.props.userData.favourites.includes(mytin._id)) {
+                console.log(4)
                 toReturn = <i onClick={() => this.handleAddFavourite(mytin._id)} className="material-icons heart">favorite</i>
             } 
         } 
@@ -129,10 +133,10 @@ favModal(){
     let favContent = <> <p className='fav-login-text'>Login to add favourites</p> 
                         <Link to='/user/login' className='fav-modal-link'>Login</Link>
                         <Link to='/user/register' className='fav-modal-link'>Create Account</Link></>
-    if(this.state.login && this.props.response === 'added'){
+    if(this.props.userData && this.props.response === 'added'){
         favContent = <> <p>You have added this Itinerary to your favourites.</p>
                         <Link to='/user/favourites' className='fav-modal-link'>Go to Favourites</Link> </>
-    } if(this.state.login && this.props.response === 'removed'){
+    } if(this.props.userData && this.props.response === 'removed'){
         favContent = <> <p>You have removed this Itinerary from your favourites.</p>
                        <Link to='/user/favourites' className='fav-modal-link'>Go to Favourites</Link> </>
 
@@ -145,7 +149,7 @@ favModal(){
  componentDidMount(){
      this.props.getLoggedUserData();
     const token = localStorage.getItem('token')
-    if(token){
+    if(this.props.userData == ''){
         this.props.getLoggedUserData(token)
         this.setState({
             login:true
@@ -158,7 +162,8 @@ favModal(){
 
 
     render(){
-        if (this.props.mytinerariesAreLoaded && this.props.userData)
+        console.log(this.props.userData)
+        if (this.props.mytinerariesAreLoaded)
         return( <>
             {/* activity modal */}
              {this.state.modal && <><div className="activity-modal">

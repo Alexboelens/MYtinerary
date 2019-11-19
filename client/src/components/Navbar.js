@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getLoggedUserData, logOut, googleLogin } from './redux/actions/loginActions'
+import { getLoggedUserData, logOut, googleLogin, logOut2 } from './redux/actions/loginActions'
 import { fetchAllMytineraries, fetchMytinerariesByCity } from './redux/actions/mytinerariesActions'
 import axios from 'axios'
 
@@ -32,9 +32,10 @@ class Navbar extends React.Component {
 
     handleLogout = () => {
         this.setState({
-         toggleMenu: !this.state.toggleMenu
+         toggleMenu: !this.state.toggleMenu,
+         loggedIn: false
         })
-        this.props.logOut();
+        this.props.logOut2();
         localStorage.removeItem('token') 
         this.props.getLoggedUserData()
 
@@ -48,8 +49,10 @@ class Navbar extends React.Component {
     componentDidMount(){
       const code = window.location.search;
       this.props.getLoggedUserData();
+      if (code)
       this.props.googleLogin(code);
-      console.log(code)
+      console.log(this.props.googleUserData)
+     
 
       const token = localStorage.getItem('token')
       if(token){
@@ -57,9 +60,11 @@ class Navbar extends React.Component {
           loggedIn: true
         })
       }
+      
     }
 
     render(){
+      {this.props.googleUserDataIsLoaded && console.log(this.props.userData)}
         return(
             <header>
                  <div onClick={this.handleMenu} className="btn-div">
@@ -78,6 +83,7 @@ class Navbar extends React.Component {
                     <div onClick={this.handleMenu} className="backdrop"></div>
                     <div className="side-menu">
                       <div className="sidemenu-header">
+                        {console.log(this.props.userData.image)}
                           <div style={this.props.userData.image ? {backgroundImage: `url(${this.props.userData.image})`} : {backgroundImage: `url('')`}} className="sidemenu-avatar"></div>
                           <div className="avatar-name">
                             <p>{this.props.userData.userName}</p>
@@ -88,12 +94,14 @@ class Navbar extends React.Component {
                       <div className="sidemenu-link-wrap">
                        
                   
-                    {this.props.userData.userName && <>
+                    {this.props.userData && 
+                    <>
                       <span className='navlink' onClick={this.handleLogout}>Logout</span>
                       <Link to='/user/favourites' className='navlink'onClick={this.handleMenu}>Favourites</Link>
-                      </>}
+                      </>
+                      }
 
-                      {this.props.userData.auth === false && 
+                      {!this.props.userData && 
                       <Link to='/user/login' className='navlink' onClick={this.handleMenu}>Login</Link> }
                       <Link to='/' onClick={() => this.googleLogout()} className='navlink' onClick={this.handleMenu}>Google logout</Link> 
                       
@@ -112,7 +120,9 @@ class Navbar extends React.Component {
 
 const mapStateToProps = (state)=> ({
   userData: state.login.userData,
-  response: state.login.response
+  response: state.login.response,
+  googleUserData: state.login.googleUserData,
+  googleUserDataIsLoaded: state.login.googleUserDataIsLoaded
 })
 
-export default withRouter(connect(mapStateToProps, { getLoggedUserData, logOut, fetchAllMytineraries, fetchMytinerariesByCity, googleLogin })(Navbar))
+export default withRouter(connect(mapStateToProps, { getLoggedUserData, logOut, fetchAllMytineraries, fetchMytinerariesByCity, googleLogin, logOut2 })(Navbar))

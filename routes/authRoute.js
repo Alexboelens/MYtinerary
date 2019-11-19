@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('../config');
 const User = require('../models/user');
-const VerifyToken = require('./verifyToken')
+const VerifyToken = require('./verifyToken');
+const ObjectID = require('objectid')
 
 
   router.get('/profile', VerifyToken, (req, res) => {
@@ -13,11 +14,10 @@ const VerifyToken = require('./verifyToken')
     
     jwt.verify(token, config.secret, (err, result) => {
       if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-      
-      User.findById(result.id, { password: 0 }, (err, user) => {
+      console.log(result)
+      User.findOne({_id: ObjectID(result.id)}, { password: 0 }, (err, user) => {
         if (err) return res.status(500).send("There was a problem finding the user.");
         if (!user) return res.status(404).send("No user found.");
-        
         res.status(200).send(user);
       });
     });

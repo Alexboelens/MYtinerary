@@ -1,9 +1,19 @@
-import { LOGIN_USER, GET_LOGGED_USER_DATA, GOOGLE_LOGIN } from './types'
+import { LOGIN_USER, GET_LOGGED_USER_DATA, GOOGLE_LOGIN, LOGOUT } from './types'
 import axios from 'axios'
 
 export const logOut = (dispatch) => {
     return {
         type: LOGIN_USER,
+        response: {
+            token: null,
+            auth: false
+        }
+    }
+} 
+
+export const logOut2 = (dispatch) => {
+    return {
+        type: LOGOUT,
         response: {
             token: null,
             auth: false
@@ -25,7 +35,8 @@ export const loginUser = (user) => dispatch => {
 
 export const getLoggedUserData = () => dispatch => {
     const token = localStorage.getItem('token')
-    axios.get('http://localhost:8080/user/profile', {
+    if(token){
+    axios.get('/user/profile', {
         headers: {
           'token': token
         }
@@ -39,10 +50,11 @@ export const getLoggedUserData = () => dispatch => {
     console.log(res.data)
      })
     }
+    }
 
 export const googleLogin = (code) => {
         return (dispatch) => {
-            fetch("http://localhost:8080/google/auth/redirect"+code,{
+            fetch('/google/auth/redirect'+code,{
                 method: "GET",
                 mode: "no-cors",
                 headers: {
@@ -54,10 +66,12 @@ export const googleLogin = (code) => {
             .then(json => {
                 dispatch({
                     type:GOOGLE_LOGIN,
-                    payload:json.data,
-                    userDataIsLoaded:true
+                    payload:json,
+                    googleUserDataIsLoaded:true
                 })
-            .catch(err => console.log(err))
+            localStorage.setItem('token', json.token)
+            console.log(json)
+            // .catch(err => console.log(err))
             })
         }
     }

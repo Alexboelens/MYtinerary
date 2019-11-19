@@ -29,17 +29,20 @@ passport.use(
         if(user){
             console.log('user already exists')
             done(null, user);
-            // res.send(user)
         } else {
-            const token = jwt.sign({ id: profile.id }, config.secret);
             new User({
                 userName: profile.displayName,
                 googleId: profile.id,
                 image: profile._json.picture,
-                token: token
+                token: ''
             }).save().then((newUser) => {
                 console.log('user created')
-                done(null, newUser);
+                const token = jwt.sign({ id: newUser._id }, config.secret);
+                User.findOneAndUpdate({googleId: profile.id}, {token: token}, null, (err, result) => {
+                    User.findOne({googleId: profile.id}, (err, user) => {
+                        done(null, user)
+                    })  
+                })  
             }).catch((err) => {
                 console.log(err)
             })

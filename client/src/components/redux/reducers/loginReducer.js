@@ -1,10 +1,12 @@
-import { LOGIN_USER, GET_LOGGED_USER_DATA, GOOGLE_LOGIN } from '../actions/types'
+import { LOGIN_USER, GET_LOGGED_USER_DATA, GOOGLE_LOGIN, LOGOUT } from '../actions/types'
 
 
 const initialState = {
     response:'',
     userData:'',
-    userDataIsLoaded: false
+    userDataIsLoaded: false,
+    googleUserData:'',
+    googleUserDataIsLoaded: false,
 }
 
 export default (state = initialState, action) => {
@@ -24,8 +26,13 @@ export default (state = initialState, action) => {
             return{
                 ...state,
                 userData: action.payload,
-                userDataIsLoaded: action.userDataIsLoaded
-
+                userDataIsLoaded: action.googleUserDataIsLoaded
+            }
+        case LOGOUT:
+            return{
+                ...state,
+                userData:'',
+                response: action.response
             }
         
         default:
