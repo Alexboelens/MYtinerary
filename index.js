@@ -21,10 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors());
 
-// app.use(cookieSession({
-//     maxAge: 24 * 60 * 60 * 1000,
-//     keys: [keys.session.cookieKey]  
-// }))
+
 
 // initialize passport
 app.use(passport.initialize());
@@ -32,11 +29,11 @@ app.use(passport.session());
 
 
 mongoose.connect(process.env.MONGODB_URL,
-{ useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false } );
+    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'))
-db.once('open', () => {console.log('connected to MongoDB')})
+db.once('open', () => { console.log('connected to MongoDB') })
 
 
 

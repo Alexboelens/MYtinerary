@@ -13,7 +13,7 @@ router.get('/all', (req, res) => {
 router.get('/:city', (req, res) => {
   let city = { city: req.params.city }
   Mytineraries.find(city, (err, result) => {
-    if(result){
+    if (result) {
       return res.send(result)
     }
   })

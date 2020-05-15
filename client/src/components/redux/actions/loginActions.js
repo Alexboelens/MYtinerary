@@ -9,7 +9,7 @@ export const logOut = (dispatch) => {
             auth: false
         }
     }
-} 
+}
 
 export const logOut2 = (dispatch) => {
     return {
@@ -19,60 +19,58 @@ export const logOut2 = (dispatch) => {
             auth: false
         }
     }
-} 
+}
 
 export const loginUser = (user) => dispatch => {
     axios.post('http://localhost:8080/user/login', user)
-   .then( res => {
-       dispatch({
-           type: LOGIN_USER,
-           response:res.data
-       })
-       localStorage.setItem('token', res.data.token)
-   }
-   )
+        .then(res => {
+            dispatch({
+                type: LOGIN_USER,
+                response: res.data
+            })
+            localStorage.setItem('token', res.data.token)
+        }
+        )
 }
 
 export const getLoggedUserData = () => dispatch => {
     const token = localStorage.getItem('token')
-    if(token){
-    axios.get('/user/profile', {
-        headers: {
-          'token': token
-        }
-      })
-     .then(res => {
-         dispatch({
-             type:GET_LOGGED_USER_DATA,
-             payload: res.data,
-             userDataIsLoaded: true
-         })
-    console.log(res.data)
-     })
+    if (token) {
+        axios.get('/user/profile', {
+            headers: {
+                'token': token
+            }
+        })
+            .then(res => {
+                dispatch({
+                    type: GET_LOGGED_USER_DATA,
+                    payload: res.data,
+                    userDataIsLoaded: true
+                })
+            })
     }
-    }
+}
 
 export const googleLogin = (code) => {
-        return (dispatch) => {
-            fetch('/google/auth/redirect'+code,{
-                method: "GET",
-                mode: "no-cors",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            })
+    return (dispatch) => {
+        fetch('/google/auth/redirect' + code, {
+            method: "GET",
+            mode: "no-cors",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
             .then(res => res.json())
             .then(json => {
                 dispatch({
-                    type:GOOGLE_LOGIN,
-                    payload:json,
-                    googleUserDataIsLoaded:true
+                    type: GOOGLE_LOGIN,
+                    payload: json,
+                    googleUserDataIsLoaded: true
                 })
-            localStorage.setItem('token', json.token)
-            console.log(json)
-            // .catch(err => console.log(err))
+                localStorage.setItem('token', json.token)
+                    .catch(err => console.log(err))
             })
-        }
     }
+}
 
