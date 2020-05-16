@@ -62,7 +62,6 @@ class Mytineraries extends React.Component {
             activity: activity,
             modal: true
         })
-        console.log(this.state.activity)
     }
 
     handleCloseModal = () => {
@@ -104,7 +103,6 @@ class Mytineraries extends React.Component {
         setTimeout(() => {
             this.props.getLoggedUserData();
             this.props.fetchMytinerariesByCity(city);
-            console.log(this.props.response)
         }, 200)
 
         this.setState({
@@ -114,13 +112,9 @@ class Mytineraries extends React.Component {
 
     renderFavIcon(mytin) {
         let toReturn = <i onClick={() => this.handleAddFavourite(mytin._id)} className="material-icons empty-heart">favorite_border</i>;
-        console.log(1)
         if (this.props.userData) {
-            console.log(2)
             if (this.props.userData.favourites) {
-                console.log(this.props.userData.favourites)
                 if (this.props.userData.favourites.includes(mytin._id)) {
-                    console.log(4)
                     toReturn = <i onClick={() => this.handleAddFavourite(mytin._id)} className="material-icons heart">favorite</i>
                 }
             }
@@ -161,7 +155,6 @@ class Mytineraries extends React.Component {
 
 
     render() {
-        console.log(this.props.userData)
         if (this.props.mytinerariesAreLoaded)
             return (<>
                 {/* activity modal */}

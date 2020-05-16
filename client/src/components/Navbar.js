@@ -51,8 +51,6 @@ class Navbar extends React.Component {
     this.props.getLoggedUserData();
     if (code)
       this.props.googleLogin(code);
-    console.log(this.props.googleUserData)
-
 
     const token = localStorage.getItem('token')
     if (token) {

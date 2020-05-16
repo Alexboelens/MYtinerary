@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { loginUser } from './redux/actions/loginActions'
 import { Redirect, Link } from 'react-router-dom'
 import googleLogo from '../images/Google-Logo.png'
-import facebookLogo from '../images/facebook-logo.png'
 import { fetchAllMytineraries } from './redux/actions/mytinerariesActions'
 
 
