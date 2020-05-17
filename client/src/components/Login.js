@@ -3,7 +3,6 @@ import Footer from './Footer'
 import { connect } from 'react-redux'
 import { loginUser } from './redux/actions/loginActions'
 import { Redirect, Link } from 'react-router-dom'
-import googleLogo from '../images/Google-Logo.png'
 import { fetchAllMytineraries } from './redux/actions/mytinerariesActions'
 
 
@@ -66,44 +65,32 @@ class Login extends React.Component {
         const isEnabled = this.handleActive();
         return (
             <main>
-                <label htmlFor="email" className='login-label-email'>Email</label>
-                <input type="text"
-                    id='email'
-                    name='email'
-                    value={this.state.email}
-                    onChange={this.handleChange}
-                    className='login-input-field'
-                />
-
-
-                <label htmlFor="password" className='login-label'>Password</label>
-                <input type="text"
-                    id='password'
-                    name='password'
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                    className='login-input-field'
-                />
-
-                <div className="login-checkbox-wrap">
-                    <input type="checkbox"
-                        id='checkbox'
-                        onClick={this.handleChecked}
-                        value={this.state.password}
-                        className='login-checkbox' />
-                    <label htmlFor="checkbox">Remember Me</label>
+                <div className="wrapper">
+                    <label htmlFor="email" className='login-label-email'>Email</label>
+                    <input type="text"
+                        id='email'
+                        name='email'
+                        value={this.state.email}
+                        onChange={this.handleChange}
+                        className='login-input-field'
+                    />
                 </div>
+
+
+                <div className="wrapper">
+                    <label htmlFor="password" className='login-label'>Password</label>
+                    <input type="text"
+                        id='password'
+                        name='password'
+                        value={this.state.password}
+                        onChange={this.handleChange}
+                        className='login-input-field'
+                    />
+                </div>
+
 
                 <div className="login-btn-wrap">
                     <button disabled={!isEnabled} className={!isEnabled ? 'login-btn' : 'login-btn-active'} onClick={this.handleLogin}>Login</button>
-                </div>
-                {/* google login button */}
-                <div className="google-wrap">
-
-                    <button className='google-btn'> <img className='google-logo' src={googleLogo} alt="google logo" />
-                        <a className='google-link' href='http://localhost:8080/google/auth'>Sign in with Google</a>
-                    </button>
-
                 </div>
 
                 <div className="login-text-wrap">
@@ -113,8 +100,6 @@ class Login extends React.Component {
                     <Link to='/user/register' className='ca-link'>Create Account</Link>
                 </div>
 
-
-                {console.log(this.props.response.auth)}
                 {this.props.response === 'wrong email' && <span className='wrong-email'>You have entered a wrong email-address.</span>}
                 {this.props.response === 'wrong password' && <span className='wrong-password'>You have entered a wrong password.</span>}
                 {this.props.response.auth === true && <Redirect to='/' />}

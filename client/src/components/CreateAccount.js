@@ -152,22 +152,24 @@ class CreateAccount extends React.Component {
                         className='ca-input-field'
                     />
                 </div>
+                <div className="country-wrap">
+                    <label className='ca-select-label' htmlFor="select">Country</label>
+                    <select name="country"
+                        value={this.state.country}
+                        onChange={this.handleChange}
+                        id='select'
+                        className='ca-select'>
+                        <option value='' disabled>Choose One</option>
+                        <option value="England">England</option>
+                        <option value="France">France</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Holland">Holland</option>
+                        <option value="Ireland">Ireland</option>
+                        <option value="Spain">Spain</option>
+                        <option value="United States">United Stated</option>
+                    </select>
+                </div>
 
-                <label className='ca-select-label' htmlFor="select">Country</label>
-                <select name="country"
-                    value={this.state.country}
-                    onChange={this.handleChange}
-                    id='select'
-                    className='ca-select'>
-                    <option value='' disabled>Choose One</option>
-                    <option value="England">England</option>
-                    <option value="France">France</option>
-                    <option value="Germany">Germany</option>
-                    <option value="Holland">Holland</option>
-                    <option value="Ireland">Ireland</option>
-                    <option value="Spain">Spain</option>
-                    <option value="United States">United Stated</option>
-                </select>
 
                 <div className="ca-checkbox-wrap">
                     <input type="checkbox"

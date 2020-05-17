@@ -23,12 +23,6 @@ const Home = () => {
 
       <p className="home-text-2" >Want to build your own MYtinerary?</p>
 
-      <div className="wrapper">
-        <Link to='/user/login'><button className='button'>Login</button></Link>
-        <Link to='/user/register'><button className='button'>Register</button></Link>
-      </div>
-
-
     </div>
 
   )
